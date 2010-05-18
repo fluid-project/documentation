@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Simple Radio Buttons, using a ProtoTree</title>
+        <script type="text/javascript" src="infusion-1.2/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="infusion-1.2/lib/fastXmlPull/js/fastXmlPull.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/core/js/DataBinding.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript" src="engage-core-framework/js/engageRenderUtils.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var model = {
+                    opts: ["opt1", "opt2", "opt3", "opt4"],
+                    val: "opt3",
+                    buttons: [
+                        { name: "Option 1" },
+                        { name: "Option 2" },
+                        { name: "Option 3" },
+                        { name: "Option 4" }
+                    ]
+                };
+                var protoTree = {
+                    "radio-group": {
+                        optionlist: "${opts}",
+                        selection: "${val}"
+                    },
+                    "radio-row:": {
+                        children: [
+                            {"radio-button": {choiceindex: 0, parentRelativeID: "..::radio-group"},
+                             "radio-label": "${buttons.0.name}"},
+                            {"radio-button": {choiceindex: 1, parentRelativeID: "..::radio-group"},
+                             "radio-label": "${buttons.1.name}"},
+                            {"radio-button": {choiceindex: 2, parentRelativeID: "..::radio-group"},
+                             "radio-label": "${buttons.2.name}"},
+                            {"radio-button": {choiceindex: 3, parentRelativeID: "..::radio-group"},
+                             "radio-label": "${buttons.3.name}"}
+                        ]
+                    }
+                };
+                var expander = fluid.renderer.makeProtoExpander({ELstyle: "${}"});
+                var tree = expander(protoTree);
+                var treeOld = {
+                    children: [
+                        { ID: "radio-group",
+                          optionlist: { valuebinding: "opts"},
+                          selection: { valuebinding: "val"}},
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 0, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", valuebinding: "buttons.0.name" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 1, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", valuebinding: "buttons.1.name" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 2, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", valuebinding: "buttons.2.name" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 3, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", valuebinding: "buttons.3.name" }
+                          ] }
+                    ]
+                };
+                var cutpoints = [
+                    { id: "radio-row:", selector: ".row"},
+                    { id: "radio-button", selector: ".button"},
+                    { id: "radio-label", selector: ".label"}
+                ];
+                var renderOpts = {
+                    cutpoints: cutpoints,
+                    autoBinding: true,
+                    model: model,
+                    debugMode: false
+                };
+                fluid.selfRender($("body"), tree, renderOpts);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="row">
+            <input class="button" type="radio" name="group1"/><span class="label">label here</span>
+        </div>
+    </body>
+</html>
