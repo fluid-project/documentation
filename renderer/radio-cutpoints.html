@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Simple Radio Buttons, with Cutpoints</title>
+        <script type="text/javascript" src="infusion-1.2/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="infusion-1.2/lib/fastXmlPull/js/fastXmlPull.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="infusion-1.2/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var tree = {
+                    children: [
+                        { ID: "radio-group",
+                          optionlist: ["opt1", "opt2", "opt3", "opt4"],
+                          selection: "opt3"},
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 0, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", value: "Option 1" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 1, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", value: "Option 2" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 2, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", value: "Option 3" }
+                          ] },
+                        { ID: "radio-row:",
+                          children: [
+                              { ID: "radio-button", choiceindex: 3, parentRelativeID: "..::radio-group" },
+                              { ID: "radio-label", value: "Option 4" }
+                          ] }
+                    ]
+                };
+                var cutpoints = [
+                    { id: "radio-row:", selector: ".row"},
+                    { id: "radio-button", selector: ".button"},
+                    { id: "radio-label", selector: ".label"}
+                ];
+                fluid.selfRender($("body"), tree, {cutpoints: cutpoints, debugMode: false});
+            });
+        </script>
+    </head>
+    <body>
+        <div class="row">
+            <input class="button" type="radio" name="group1"/><span class="label">label here</span>
+        </div>
+    </body>
+</html>
